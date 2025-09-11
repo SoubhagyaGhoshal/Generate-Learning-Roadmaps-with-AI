@@ -121,23 +121,30 @@ export default function Roadmap({ roadmapId }: Props) {
         setTimeoutError(false);
         
         try {
-          const apiKeyParam = modelApiKey && modelApiKey.trim() !== "" ? `?apiKey=${modelApiKey}` : "";
-          const url = `/api/v1/${model}/roadmap${apiKeyParam}`;
+          // Always make the API call - the backend will use environment API key if no user key provided
+          const url = `/api/v1/${model}/roadmap`;
           
           console.log("📡 Making API call to:", url);
           console.log("📡 Request body:", { query: topic });
+          console.log("📡 Model API Key available:", modelApiKey ? "YES" : "NO");
           
-          const response = await axios.post(url, { query: topic }, {
+          const response = await axios.post(url, { 
+            query: topic,
+            ...(modelApiKey && modelApiKey.trim() !== "" ? { apiKey: modelApiKey } : {})
+          }, {
             timeout: 30000,
           });
           
           console.log("✅ API call successful:", response.data);
-          setGeneratedData(response.data);
-          // Force state update to ensure re-render
-          setTimeout(() => {
+          console.log("✅ Response status:", response.data.status);
+          console.log("✅ Has tree data:", !!response.data.tree);
+          
+          if (response.data.status && response.data.tree) {
+            setGeneratedData(response.data);
             setIsGenerating(false);
-            console.log("🔄 Forced isGenerating to false");
-          }, 100);
+          } else {
+            throw new Error(response.data.message || "Failed to generate roadmap");
+          }
         } catch (error) {
           console.error("❌ API call failed:", error);
           setGenerationError(error);
@@ -149,7 +156,7 @@ export default function Roadmap({ roadmapId }: Props) {
       // Call immediately
       makeApiCall();
     }
-  }, [params, hasTriggeredGeneration, isGenerating, generatedData, model, modelApiKey]);
+  }, [params, hasTriggeredGeneration, isGenerating, generatedData, model, modelApiKey, setQuery]);
 
   // Fallback auto-generation with timeout
   useEffect(() => {
@@ -220,12 +227,12 @@ export default function Roadmap({ roadmapId }: Props) {
     console.log("  - isGenerating:", isGenerating);
     console.log("  - has generated data:", !!generatedData);
     console.log("  - error:", generationError);
-    if (!isGenerating && generatedData) {
+    if (!isGenerating && generatedData && generatedData.status && generatedData.tree) {
       console.log("✅ Roadmap generation completed successfully");
     }
     
     // Force component re-render when we have data but are still generating
-    if (generatedData && isGenerating) {
+    if (generatedData && generatedData.status && generatedData.tree && isGenerating) {
       console.log("🔄 Forcing isGenerating to false due to received data");
       setIsGenerating(false);
     }
@@ -324,7 +331,49 @@ export default function Roadmap({ roadmapId }: Props) {
       {/* Main Content */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
         <GeneratorControls
-          mutate={() => {}} // Empty function since we're not using React Query mutation
+          mutate={async ({ body }: { body: { query: string } }) => {
+            console.log("🚀 Mutate function called with query:", body.query);
+            setQuery(body.query);
+            setHasTriggeredGeneration(false);
+            setGeneratedData(null);
+            setGenerationError(null);
+            
+            // Trigger generation
+            const makeApiCall = async () => {
+              console.log("🚀 Starting mutate API call for:", body.query);
+              setIsGenerating(true);
+              setGenerationError(null);
+              setTimeoutError(false);
+              
+              try {
+                const url = `/api/v1/${model}/roadmap`;
+                console.log("📡 Making mutate API call to:", url);
+                
+                const response = await axios.post(url, { 
+                  query: body.query,
+                  ...(modelApiKey && modelApiKey.trim() !== "" ? { apiKey: modelApiKey } : {})
+                }, {
+                  timeout: 30000,
+                });
+                
+                console.log("✅ Mutate API call successful:", response.data);
+                
+                if (response.data.status && response.data.tree) {
+                  setGeneratedData(response.data);
+                  setIsGenerating(false);
+                  setHasTriggeredGeneration(true);
+                } else {
+                  throw new Error(response.data.message || "Failed to generate roadmap");
+                }
+              } catch (error) {
+                console.error("❌ Mutate API call failed:", error);
+                setGenerationError(error);
+                setIsGenerating(false);
+              }
+            };
+            
+            makeApiCall();
+          }}
           isPending={isGenerating}
           renderFlow={renderFlow}
           roadmapId={generatedData?.roadmapId}
@@ -498,8 +547,46 @@ export default function Roadmap({ roadmapId }: Props) {
                           onClick={() => {
                             const topic = params.get('topic');
                             if (topic) {
+                              console.log("🚀 Manual generation triggered for:", topic);
                               setQuery(topic);
-                              generateRoadmap(topic);
+                              setHasTriggeredGeneration(false); // Reset to allow generation
+                              setGeneratedData(null); // Clear previous data
+                              setGenerationError(null); // Clear previous errors
+                              
+                              // Trigger generation immediately
+                              const makeApiCall = async () => {
+                                console.log("🚀 Starting manual API call for:", topic);
+                                setIsGenerating(true);
+                                setGenerationError(null);
+                                setTimeoutError(false);
+                                
+                                try {
+                                  const url = `/api/v1/${model}/roadmap`;
+                                  console.log("📡 Making manual API call to:", url);
+                                  
+                                  const response = await axios.post(url, { 
+                                    query: topic,
+                                    ...(modelApiKey && modelApiKey.trim() !== "" ? { apiKey: modelApiKey } : {})
+                                  }, {
+                                    timeout: 30000,
+                                  });
+                                  
+                                  console.log("✅ Manual API call successful:", response.data);
+                                  
+                                  if (response.data.status && response.data.tree) {
+                                    setGeneratedData(response.data);
+                                    setIsGenerating(false);
+                                    setHasTriggeredGeneration(true);
+                                  } else {
+                                    throw new Error(response.data.message || "Failed to generate roadmap");
+                                  }
+                                } catch (error) {
+                                  console.error("❌ Manual API call failed:", error);
+                                  setGenerationError(error);
+                                  setIsGenerating(false);
+                                }
+                              };
+                              makeApiCall();
                             }
                           }}
                           className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
