@@ -31,12 +31,12 @@ export const POST = async (req: NextRequest) => {
     
     console.log("Final API key to use:", groqApiKey ? "available" : "not available");
     
-    if (!groqApiKey) {
-      console.error("No API key available - neither from params nor environment");
+    if (!groqApiKey || groqApiKey === "your_groq_api_key_here") {
+      console.error("No valid API key available - neither from params nor environment");
       return NextResponse.json(
         { 
           status: false, 
-          message: "No API key provided. Please add GROQ_API_KEY environment variable to your Vercel deployment or provide your own API key. You can get a free API key from https://console.groq.com/" 
+          message: "No valid API key provided. Please add your own API key using the 'Add Key' button in the interface, or get a free API key from https://console.groq.com/ and add it to your environment variables." 
         },
         { status: 400 },
       );
@@ -96,7 +96,7 @@ export const POST = async (req: NextRequest) => {
 
     try {
       const text = await openai.chat.completions.create({
-        model: "llama3-70b-8192",
+        model: "llama-3.3-70b-versatile",
         temperature: 0.7,
         messages: [
           {
@@ -279,6 +279,29 @@ Generate 3-5 chapters with 4-6 modules each. Return ONLY the JSON object. Use "$
      }
   } catch (e) {
     console.error("Error in roadmap generation:", e);
+    
+    // Check if it's an API key error
+    if (e instanceof Error && (e.message.includes("Invalid API Key") || e.message.includes("invalid_api_key"))) {
+      return NextResponse.json(
+        {
+          status: false,
+          message: "Invalid API key. Please add your own API key using the 'Add Key' button in the interface, or get a free API key from https://console.groq.com/",
+        },
+        { status: 400 },
+      );
+    }
+    
+    // Check if it's a model decommissioned error
+    if (e instanceof Error && (e.message.includes("decommissioned") || e.message.includes("model_decommissioned"))) {
+      return NextResponse.json(
+        {
+          status: false,
+          message: "The AI model has been updated. Please refresh the page and try again.",
+        },
+        { status: 400 },
+      );
+    }
+    
     return NextResponse.json(
       {
         status: false,

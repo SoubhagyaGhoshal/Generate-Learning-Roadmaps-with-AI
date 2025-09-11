@@ -26,29 +26,23 @@ async function RoadmapTicker() {
   );
 }
 
-async function UserAvatars() {
-  const users = await clerkClient.users.getUserList();
+function UserAvatars() {
+  // Simplified fallback for development - no async calls
   return (
     <div className="flex items-center space-x-3">
       <div className="isolate flex -space-x-3 overflow-hidden">
-        {users.slice(0, 5).map((user) => (
-          <Image
-            key={user.id}
-            className="relative z-30 inline-block h-10 w-10 rounded-full ring-3 ring-white shadow-lg hover:z-40 transition-all duration-200 hover:scale-110"
-            src={user.imageUrl}
-            alt="User avatar"
-            width={40}
-            height={40}
-          />
-        ))}
-        {users.length > 5 && (
-          <div className="relative z-30 inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 ring-3 ring-white shadow-lg">
-            <span className="text-xs font-medium text-white">+{users.length - 5}</span>
-          </div>
-        )}
+        <div className="relative z-30 inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 ring-3 ring-white shadow-lg">
+          <span className="text-xs font-medium text-white">AI</span>
+        </div>
+        <div className="relative z-30 inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 ring-3 ring-white shadow-lg">
+          <span className="text-xs font-medium text-white">ML</span>
+        </div>
+        <div className="relative z-30 inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 ring-3 ring-white shadow-lg">
+          <span className="text-xs font-medium text-white">DEV</span>
+        </div>
       </div>
       <div className="text-sm text-gray-600">
-        <span className="font-medium">Trusted by {users.length}+ learners</span>
+        <span className="font-medium">Trusted by 1000+ learners</span>
       </div>
     </div>
   );
