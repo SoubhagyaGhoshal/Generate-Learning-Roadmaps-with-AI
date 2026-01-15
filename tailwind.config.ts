@@ -58,6 +58,12 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      boxShadow: {
+        'brutal-sm': '2px 2px 0 1px rgba(0, 0, 0, 0.65)',
+        'brutal': '4px 4px 0 1px rgba(0, 0, 0, 0.65)',
+        'brutal-lg': '6px 6px 0 1px rgba(0, 0, 0, 0.65)',
+        'brutal-xl': '8px 8px 0 1px rgba(0, 0, 0, 0.65)',
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

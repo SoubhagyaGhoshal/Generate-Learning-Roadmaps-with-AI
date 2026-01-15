@@ -1,14 +1,15 @@
 import AppBar from "@/components/app/appbar";
 import Providers from "@/components/app/providers";
 import type { Metadata } from "next";
-import { Nunito } from "next/font/google";
+import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
-const nunito = Nunito({ 
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   preload: true,
+  weight: ["400", "500", "600", "700", "800", "900"],
   fallback: ["system-ui", "arial"],
 });
 
@@ -30,9 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={nunito.className}>
+      <body className={inter.className}>
         <Providers>
           <NextTopLoader showSpinner={false} color="black" />
+          <AppBar />
           {children}
         </Providers>
       </body>

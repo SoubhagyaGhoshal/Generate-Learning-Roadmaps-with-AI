@@ -34,7 +34,7 @@ export default function Roadmap({ roadmapId }: Props) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedData, setGeneratedData] = useState<any>(null);
   const [generationError, setGenerationError] = useState<any>(null);
-  
+
   // Handle topic query parameter from URL
   useEffect(() => {
     const topic = params.get('topic');
@@ -72,18 +72,18 @@ export default function Roadmap({ roadmapId }: Props) {
     setIsGenerating(true);
     setGenerationError(null);
     setTimeoutError(false);
-    
+
     try {
       const apiKeyParam = modelApiKey && modelApiKey.trim() !== "" ? `?apiKey=${modelApiKey}` : "";
       const url = `/api/v1/${model}/roadmap${apiKeyParam}`;
-      
+
       console.log("📡 Making API call to:", url);
       console.log("📡 Request body:", { query: topic });
-      
+
       const response = await axios.post(url, { query: topic }, {
         timeout: 30000,
       });
-      
+
       console.log("✅ API call successful:", response.data);
       setGeneratedData(response.data);
       setIsGenerating(false);
@@ -106,39 +106,39 @@ export default function Roadmap({ roadmapId }: Props) {
     console.log("  - Has triggered generation:", hasTriggeredGeneration);
     console.log("  - Model:", model);
     console.log("  - Model API Key:", modelApiKey ? "SET" : "NOT SET");
-    
+
     // If we have a topic and haven't triggered generation yet, do it now
     if (topic && !hasTriggeredGeneration && !isGenerating && !generatedData) {
       console.log("🚀 Triggering generation for topic:", topic);
       setHasTriggeredGeneration(true);
       setQuery(topic);
-      
+
       // Make the API call directly
       const makeApiCall = async () => {
         console.log("🚀 Starting direct API call for:", topic);
         setIsGenerating(true);
         setGenerationError(null);
         setTimeoutError(false);
-        
+
         try {
           // Always make the API call - the backend will use environment API key if no user key provided
           const url = `/api/v1/${model}/roadmap`;
-          
+
           console.log("📡 Making API call to:", url);
           console.log("📡 Request body:", { query: topic });
           console.log("📡 Model API Key available:", modelApiKey ? "YES" : "NO");
-          
-          const response = await axios.post(url, { 
+
+          const response = await axios.post(url, {
             query: topic,
             ...(modelApiKey && modelApiKey.trim() !== "" ? { apiKey: modelApiKey } : {})
           }, {
             timeout: 30000,
           });
-          
+
           console.log("✅ API call successful:", response.data);
           console.log("✅ Response status:", response.data.status);
           console.log("✅ Has tree data:", !!response.data.tree);
-          
+
           if (response.data.status && response.data.tree) {
             setGeneratedData(response.data);
             setIsGenerating(false);
@@ -152,7 +152,7 @@ export default function Roadmap({ roadmapId }: Props) {
           setTimeoutError(true);
         }
       };
-      
+
       // Call immediately
       makeApiCall();
     }
@@ -167,20 +167,20 @@ export default function Roadmap({ roadmapId }: Props) {
           console.log("⏰ Fallback auto-generation triggered for:", topic);
           setHasTriggeredGeneration(true);
           setQuery(topic);
-          
+
           const makeApiCall = async () => {
             setIsGenerating(true);
             setGenerationError(null);
             setTimeoutError(false);
-            
+
             try {
               const apiKeyParam = modelApiKey && modelApiKey.trim() !== "" ? `?apiKey=${modelApiKey}` : "";
               const url = `/api/v1/${model}/roadmap${apiKeyParam}`;
-              
+
               const response = await axios.post(url, { query: topic }, {
                 timeout: 30000,
               });
-              
+
               setGeneratedData(response.data);
               setIsGenerating(false);
             } catch (error) {
@@ -189,11 +189,11 @@ export default function Roadmap({ roadmapId }: Props) {
               setTimeoutError(true);
             }
           };
-          
+
           makeApiCall();
         }
       }, 2000); // 2 second fallback
-      
+
       return () => clearTimeout(timeoutId);
     }
   }, [params, generatedData, isGenerating, hasTriggeredGeneration, model, modelApiKey, setQuery]);
@@ -230,7 +230,7 @@ export default function Roadmap({ roadmapId }: Props) {
     if (!isGenerating && generatedData && generatedData.status && generatedData.tree) {
       console.log("✅ Roadmap generation completed successfully");
     }
-    
+
     // Force component re-render when we have data but are still generating
     if (generatedData && generatedData.status && generatedData.tree && isGenerating) {
       console.log("🔄 Forcing isGenerating to false due to received data");
@@ -256,7 +256,7 @@ export default function Roadmap({ roadmapId }: Props) {
 
   const roadmapData = roadmap?.content || generatedData?.tree || generatedData?.text?.tree || decodeFromURL(params);
   const renderFlow = roadmapData?.[0]?.name || "";
-  
+
   // Debug the roadmap data structure
   console.log("🔍 Roadmap data structure:", {
     roadmapContent: roadmap?.content,
@@ -282,43 +282,42 @@ export default function Roadmap({ roadmapId }: Props) {
   console.log("  - Timeout error:", timeoutError);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div className="min-h-screen bg-white">
       {/* Enhanced Header with Back Button */}
-      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50">
+      <div className="sticky top-0 z-50 bg-white border-b-2 border-black">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Back Button and Title */}
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => router.push('/')}
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 shadow-sm hover:shadow-md"
+                className="brutal-hover inline-flex items-center px-4 py-2 text-sm font-bold text-black bg-white border-2 border-black rounded-lg shadow-brutal"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
+                Back
               </button>
               <div className="hidden sm:block w-px h-6 bg-gray-300" />
               <div className="flex items-center space-x-2">
-                <Sparkles className="w-5 h-5 text-purple-600" />
-                <h1 className="text-lg font-semibold text-gray-900">
+                <h1 className="text-lg font-black text-black">
                   {query || 'AI Roadmap Generator'}
                 </h1>
               </div>
             </div>
-            
+
             {/* Status Indicator */}
             <div className="flex items-center space-x-2">
               {isGenerating ? (
-                <div className="flex items-center space-x-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                <div className="flex items-center space-x-2 px-3 py-1.5 bg-white border-2 border-black rounded-lg shadow-brutal-sm text-sm font-bold text-black">
                   <Loader2 className="w-4 h-4 animate-spin" />
                   <span>Generating...</span>
                 </div>
               ) : roadmapData && roadmapData.length > 0 ? (
-                <div className="flex items-center space-x-2 px-3 py-1.5 bg-green-50 text-green-700 rounded-full text-sm font-medium">
+                <div className="flex items-center space-x-2 px-3 py-1.5 bg-white border-2 border-black rounded-lg shadow-brutal-sm text-sm font-bold text-black">
                   <CheckCircle className="w-4 h-4" />
                   <span>Ready</span>
                 </div>
               ) : (
-                <div className="flex items-center space-x-2 px-3 py-1.5 bg-gray-50 text-gray-600 rounded-full text-sm font-medium">
+                <div className="flex items-center space-x-2 px-3 py-1.5 bg-white border-2 border-black rounded-lg shadow-brutal-sm text-sm font-bold text-gray-600">
                   <Clock className="w-4 h-4" />
                   <span>Waiting</span>
                 </div>
@@ -337,27 +336,27 @@ export default function Roadmap({ roadmapId }: Props) {
             setHasTriggeredGeneration(false);
             setGeneratedData(null);
             setGenerationError(null);
-            
+
             // Trigger generation
             const makeApiCall = async () => {
               console.log("🚀 Starting mutate API call for:", body.query);
               setIsGenerating(true);
               setGenerationError(null);
               setTimeoutError(false);
-              
+
               try {
                 const url = `/api/v1/${model}/roadmap`;
                 console.log("📡 Making mutate API call to:", url);
-                
-                const response = await axios.post(url, { 
+
+                const response = await axios.post(url, {
                   query: body.query,
                   ...(modelApiKey && modelApiKey.trim() !== "" ? { apiKey: modelApiKey } : {})
                 }, {
                   timeout: 30000,
                 });
-                
+
                 console.log("✅ Mutate API call successful:", response.data);
-                
+
                 if (response.data.status && response.data.tree) {
                   setGeneratedData(response.data);
                   setIsGenerating(false);
@@ -371,7 +370,7 @@ export default function Roadmap({ roadmapId }: Props) {
                 setIsGenerating(false);
               }
             };
-            
+
             makeApiCall();
           }}
           isPending={isGenerating}
@@ -398,7 +397,7 @@ export default function Roadmap({ roadmapId }: Props) {
                 <p className="text-gray-600">AI is analyzing and structuring your learning path...</p>
               </div>
             </div>
-            
+
             {/* Progress Steps */}
             <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
               <div className="space-y-3">
@@ -407,16 +406,16 @@ export default function Roadmap({ roadmapId }: Props) {
                   <span className="text-gray-700">Analyzing topic requirements</span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
                   <span className="text-gray-700">Structuring learning modules</span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
                   <span className="text-gray-700">Generating interactive roadmap</span>
                 </div>
               </div>
             </div>
-            
+
             {timeoutError && (
               <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
                 <div className="flex items-center space-x-2 mb-2">
@@ -479,7 +478,7 @@ export default function Roadmap({ roadmapId }: Props) {
                     Your AI-powered learning roadmap will appear here
                   </p>
                 </div>
-                
+
                 <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
                   <div className="space-y-6">
                     <div className="flex items-center justify-center space-x-3 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl">
@@ -552,27 +551,27 @@ export default function Roadmap({ roadmapId }: Props) {
                               setHasTriggeredGeneration(false); // Reset to allow generation
                               setGeneratedData(null); // Clear previous data
                               setGenerationError(null); // Clear previous errors
-                              
+
                               // Trigger generation immediately
                               const makeApiCall = async () => {
                                 console.log("🚀 Starting manual API call for:", topic);
                                 setIsGenerating(true);
                                 setGenerationError(null);
                                 setTimeoutError(false);
-                                
+
                                 try {
                                   const url = `/api/v1/${model}/roadmap`;
                                   console.log("📡 Making manual API call to:", url);
-                                  
-                                  const response = await axios.post(url, { 
+
+                                  const response = await axios.post(url, {
                                     query: topic,
                                     ...(modelApiKey && modelApiKey.trim() !== "" ? { apiKey: modelApiKey } : {})
                                   }, {
                                     timeout: 30000,
                                   });
-                                  
+
                                   console.log("✅ Manual API call successful:", response.data);
-                                  
+
                                   if (response.data.status && response.data.tree) {
                                     setGeneratedData(response.data);
                                     setIsGenerating(false);

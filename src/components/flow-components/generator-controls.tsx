@@ -73,7 +73,7 @@ export const GeneratorControls = (props: Props) => {
   // Popular topics for auto-generation
   const popularTopics = [
     "JavaScript",
-    "Python", 
+    "Python",
     "React",
     "Node.js",
     "Machine Learning",
@@ -407,13 +407,13 @@ export const GeneratorControls = (props: Props) => {
 
   const onSubmit = async () => {
     let currentQuery = query.trim();
-    
+
     // If query is empty and this is auto-generate, set a random topic
     if (!currentQuery) {
       const randomTopic = getRandomTopic();
       setQuery(randomTopic);
       currentQuery = randomTopic;
-      
+
       // Show a toast to inform the user
       toast.success("Auto-generated topic", {
         description: `Generating roadmap for: ${randomTopic}`,
@@ -508,18 +508,18 @@ export const GeneratorControls = (props: Props) => {
     <div className="relative">
       {/* Gradient background overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 via-indigo-50/30 to-purple-50/50 rounded-2xl" />
-      
+
       <div className="relative container flex flex-col items-start justify-between space-y-6 py-8 sm:flex-row sm:items-center sm:space-y-0">
         <div className="flex w-full flex-col space-y-6 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
           {!dbRoadmapId && (
             <div className="flex-1 relative group">
               {/* Animated border gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-sm" />
-              
+
               <Input
                 type="text"
                 disabled={disableUI}
-                placeholder="✨ Enter any topic (e.g., Java, Python, React, Machine Learning, DevOps, AWS, Docker, Kubernetes, TypeScript, C++, Go, Rust, Swift, Kotlin, Flutter, Angular, Vue.js, Django, Spring Boot, Laravel, .NET, GraphQL, MongoDB, PostgreSQL, Redis, Elasticsearch, Apache Kafka, RabbitMQ, Jenkins, GitHub Actions, Terraform, Ansible, AWS Lambda, Serverless, IoT, Blockchain, Cryptocurrency, Smart Contracts, Solidity, Web3, DeFi, NFT, Metaverse, AR/VR, Computer Vision, Natural Language Processing, Deep Learning, Neural Networks, TensorFlow, PyTorch, Scikit-learn, OpenCV, NLTK, spaCy, BERT, GPT, Transformer, CNN, RNN, LSTM, GAN, Reinforcement Learning, Data Engineering, ETL, Data Warehousing, Big Data, Hadoop, Spark, Airflow, dbt, Snowflake, Redshift, BigQuery, Tableau, Power BI, Jupyter, Streamlit, Dash, Plotly, Pandas, NumPy, SciPy, Statistics, Probability, Linear Algebra, Calculus, Optimization, Algorithms, Data Structures, Design Patterns, Clean Code, SOLID Principles, TDD, BDD, DDD, Microservices Architecture, Event-Driven Architecture, CQRS, Event Sourcing, Domain-Driven Design, Clean Architecture, Repository Pattern, Factory Pattern, Observer Pattern, Strategy Pattern, Command Pattern, Adapter Pattern, Decorator Pattern, Singleton Pattern, Builder Pattern, Prototype Pattern, Facade Pattern, Proxy Pattern, Bridge Pattern, Composite Pattern, Flyweight Pattern, Template Method Pattern, Chain of Responsibility Pattern, Mediator Pattern, Memento Pattern, State Pattern, Visitor Pattern, Interpreter Pattern, Iterator Pattern, MVC, MVP, MVVM, Flux, Redux, MobX, Zustand, Recoil, Jotai, XState, FSM, State Machine, Workflow Engine, BPMN, Business Process Management, Workflow Automation, RPA, UiPath, Automation Anywhere, Blue Prism, Power Automate, Zapier, IFTTT, Webhooks, API Gateway, Service Mesh, Istio, Linkerd, Consul, Envoy, Load Balancer, CDN, CloudFront, CloudFlare, Akamai, Vercel, Netlify, Heroku, Railway, Render, DigitalOcean, Linode, Vultr, AWS EC2, Azure VM, Google Compute Engine, AWS S3, Azure Blob Storage, Google Cloud Storage, AWS RDS, Azure SQL Database, Google Cloud SQL, AWS DynamoDB, Azure Cosmos DB, Google Firestore, AWS Lambda, Azure Functions, Google Cloud Functions, AWS API Gateway, Azure API Management, Google Cloud Endpoints, AWS CloudFormation, Azure Resource Manager, Google Cloud Deployment Manager, Terraform, Pulumi, CloudFormation, SAM, Serverless Framework, Zappa, Chalice, AWS Amplify, Azure Static Web Apps, Google Firebase, Supabase, Hasura, Strapi, Sanity, Contentful, Prismic, Ghost, WordPress, Drupal, Joomla, Magento, Shopify, WooCommerce, BigCommerce, Salesforce, HubSpot, Pipedrive, Zoho, Monday.com, Asana, Trello, Jira, Confluence, Notion, Airtable, Coda, Figma, Sketch, Adobe XD, InVision, Marvel, Framer, Webflow, Bubble, Zapier, Make, n8n, Retool, Appsmith, Budibase, Tooljet, AppGyver, OutSystems, Mendix, Power Apps, Power Automate, Power BI, Power Query, DAX, M, Power Fx, Power Virtual Agents, Power Platform, Microsoft 365, SharePoint, Teams, OneDrive, OneNote, Outlook, Excel, Word, PowerPoint, Access, Publisher, Visio, Project, Planner, To Do, Forms, Sway, Stream, Yammer, Delve, Power BI, Power Apps, Power Automate, Power Virtual Agents, Power Platform, Dynamics 365, Azure DevOps, GitHub, GitLab, Bitbucket, SourceTree, GitKraken, VS Code, IntelliJ IDEA, Eclipse, NetBeans, Visual Studio, Xcode, Android Studio, Sublime Text, Atom, Vim, Emacs, Nano, Notepad++, Brackets, WebStorm, PhpStorm, PyCharm, DataGrip, CLion, Rider, AppCode, GoLand, RubyMine)"
+                placeholder="Enter any topic (e.g., Java, Python, React, Machine Learning, DevOps, AWS, Docker, Kubernetes, TypeScript, C++, Go, Rust, Swift, Kotlin, Flutter, Angular, Vue.js, Django, Spring Boot, Laravel, .NET, GraphQL, MongoDB, PostgreSQL, Redis, Elasticsearch, Apache Kafka, RabbitMQ, Jenkins, GitHub Actions, Terraform, Ansible, AWS Lambda, Serverless, IoT, Blockchain, Cryptocurrency, Smart Contracts, Solidity, Web3, DeFi, NFT, Metaverse, AR/VR, Computer Vision, Natural Language Processing, Deep Learning, Neural Networks, TensorFlow, PyTorch, Scikit-learn, OpenCV, NLTK, spaCy, BERT, GPT, Transformer, CNN, RNN, LSTM, GAN, Reinforcement Learning, Data Engineering, ETL, Data Warehousing, Big Data, Hadoop, Spark, Airflow, dbt, Snowflake, Redshift, BigQuery, Tableau, Power BI, Jupyter, Streamlit, Dash, Plotly, Pandas, NumPy, SciPy, Statistics, Probability, Linear Algebra, Calculus, Optimization, Algorithms, Data Structures, Design Patterns, Clean Code, SOLID Principles, TDD, BDD, DDD, Microservices Architecture, Event-Driven Architecture, CQRS, Event Sourcing, Domain-Driven Design, Clean Architecture, Repository Pattern, Factory Pattern, Observer Pattern, Strategy Pattern, Command Pattern, Adapter Pattern, Decorator Pattern, Singleton Pattern, Builder Pattern, Prototype Pattern, Facade Pattern, Proxy Pattern, Bridge Pattern, Composite Pattern, Flyweight Pattern, Template Method Pattern, Chain of Responsibility Pattern, Mediator Pattern, Memento Pattern, State Pattern, Visitor Pattern, Interpreter Pattern, Iterator Pattern, MVC, MVP, MVVM, Flux, Redux, MobX, Zustand, Recoil, Jotai, XState, FSM, State Machine, Workflow Engine, BPMN, Business Process Management, Workflow Automation, RPA, UiPath, Automation Anywhere, Blue Prism, Power Automate, Zapier, IFTTT, Webhooks, API Gateway, Service Mesh, Istio, Linkerd, Consul, Envoy, Load Balancer, CDN, CloudFront, CloudFlare, Akamai, Vercel, Netlify, Heroku, Railway, Render, DigitalOcean, Linode, Vultr, AWS EC2, Azure VM, Google Compute Engine, AWS S3, Azure Blob Storage, Google Cloud Storage, AWS RDS, Azure SQL Database, Google Cloud SQL, AWS DynamoDB, Azure Cosmos DB, Google Firestore, AWS Lambda, Azure Functions, Google Cloud Functions, AWS API Gateway, Azure API Management, Google Cloud Endpoints, AWS CloudFormation, Azure Resource Manager, Google Cloud Deployment Manager, Terraform, Pulumi, CloudFormation, SAM, Serverless Framework, Zappa, Chalice, AWS Amplify, Azure Static Web Apps, Google Firebase, Supabase, Hasura, Strapi, Sanity, Contentful, Prismic, Ghost, WordPress, Drupal, Joomla, Magento, Shopify, WooCommerce, BigCommerce, Salesforce, HubSpot, Pipedrive, Zoho, Monday.com, Asana, Trello, Jira, Confluence, Notion, Airtable, Coda, Figma, Sketch, Adobe XD, InVision, Marvel, Framer, Webflow, Bubble, Zapier, Make, n8n, Retool, Appsmith, Budibase, Tooljet, AppGyver, OutSystems, Mendix, Power Apps, Power Automate, Power BI, Power Query, DAX, M, Power Fx, Power Virtual Agents, Power Platform, Microsoft 365, SharePoint, Teams, OneDrive, OneNote, Outlook, Excel, Word, PowerPoint, Access, Publisher, Visio, Project, Planner, To Do, Forms, Sway, Stream, Yammer, Delve, Power BI, Power Apps, Power Automate, Power Virtual Agents, Power Platform, Dynamics 365, Azure DevOps, GitHub, GitLab, Bitbucket, SourceTree, GitKraken, VS Code, IntelliJ IDEA, Eclipse, NetBeans, Visual Studio, Xcode, Android Studio, Sublime Text, Atom, Vim, Emacs, Nano, Notepad++, Brackets, WebStorm, PhpStorm, PyCharm, DataGrip, CLion, Rider, AppCode, GoLand, RubyMine)"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => {
@@ -529,18 +529,13 @@ export const GeneratorControls = (props: Props) => {
                 }}
                 className="relative h-14 text-lg border-2 border-gray-200/80 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200/50 transition-all duration-300 rounded-2xl shadow-lg hover:shadow-xl bg-white/90 backdrop-blur-sm group-hover:border-indigo-400"
               />
-              
-              {/* Sparkle icon */}
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-hover:text-indigo-400 transition-colors duration-300">
-                <Sparkles size={20} />
-              </div>
             </div>
           )}
 
           {dbRoadmapId && (
             <div className="flex-1 -ml-6 md:ml-0">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => router.back()}
                 className="group bg-white/80 backdrop-blur-sm border-2 border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/80 transition-all duration-300 rounded-xl shadow-md hover:shadow-lg"
               >
@@ -552,9 +547,9 @@ export const GeneratorControls = (props: Props) => {
 
           {!dbRoadmapId && (
             <div className="flex items-center space-x-3">
-              <GenerateButton 
-                onClick={onSubmit} 
-                disabled={disableUI} 
+              <GenerateButton
+                onClick={onSubmit}
+                disabled={disableUI}
                 isPending={isPending}
                 autoGenerate={true}
               />
@@ -573,9 +568,9 @@ export const GeneratorControls = (props: Props) => {
           )}
 
           {!showVisibilityDropdown && dbRoadmapId && canSaveToDashboard && (
-            <Button 
-              onClick={handleSaveToDashboard} 
-              size="icon" 
+            <Button
+              onClick={handleSaveToDashboard}
+              size="icon"
               variant="outline"
               className="bg-green-50/80 backdrop-blur-sm border-green-200 hover:bg-green-100/80 hover:border-green-300 transition-all duration-300 rounded-xl shadow-md hover:shadow-lg group"
             >

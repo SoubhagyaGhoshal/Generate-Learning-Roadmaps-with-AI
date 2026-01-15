@@ -59,9 +59,9 @@ const Search = () => {
 
   return (
     <div>
-      <div className="flex gap-4 items-center justify-between">
+      <div className="flex gap-4 items-center justify-between mb-6">
         <Input
-          className="input"
+          className="bg-white border-2 border-black rounded-lg shadow-brutal px-4 py-3 text-black font-medium placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
           type="text"
           placeholder="Start typing to search..."
           value={form.getValues().query}

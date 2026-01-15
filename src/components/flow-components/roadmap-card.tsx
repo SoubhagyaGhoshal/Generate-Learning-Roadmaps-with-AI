@@ -76,21 +76,21 @@ function RoadmapCard({
 
   return (
     <>
-      <div className="flex rounded-md border transition-colors hover:bg-gray-100 group relative cursor-pointer hover:shadow-md">
+      <div className="brutal-hover flex rounded-lg border-2 border-black bg-white shadow-brutal group relative cursor-pointer">
         <Link href={`/roadmap/${slug}`} className="flex-grow">
           <div className="flex flex-col">
-            <div className="flex items-center justify-between px-2.5 py-2.5">
-              <h2 className="flex-grow text-base font-medium leading-tight truncate w-[20ch]">
+            <div className="flex items-center justify-between px-4 py-3">
+              <h2 className="flex-grow text-base font-bold leading-tight truncate w-[20ch] text-black">
                 {title}
               </h2>
             </div>
-            <div className="flex items-center justify-between gap-2 px-2.5 py-2">
-              <span className="flex items-center gap-1.5 text-xs text-gray-400">
+            <div className="flex items-center justify-between gap-2 px-4 py-2 border-t border-gray-200">
+              <span className="flex items-center gap-1.5 text-xs font-semibold text-black">
                 <EyeIcon />
                 {views}
               </span>
 
-              <span className="flex items-center gap-1.5 text-xs text-gray-400 absolute right-2">
+              <span className="flex items-center gap-1.5 text-xs font-medium text-gray-600">
                 {timeAgo}
               </span>
             </div>
@@ -100,25 +100,18 @@ function RoadmapCard({
         {pathname.includes(`/dashboard`) && (
           <button
             type="button"
-            className="group relative m-1 h-3.5 w-3.5 rounded-sm hover:bg-gray-600/20"
+            className="group relative m-2 h-4 w-4 rounded-sm hover:bg-gray-200 flex items-center justify-center"
             onClick={handleDelete}
           >
             <span className="sr-only">Remove</span>
             <svg
               viewBox="0 0 14 14"
-              className="h-3.5 w-3.5 stroke-gray-600/50 group-hover:stroke-gray-600/75"
+              className="h-3.5 w-3.5 stroke-black stroke-2"
             >
               <path d="M4 4l6 6m0-6l-6 6" />
             </svg>
             <span className="absolute -inset-1" />
           </button>
-        )}
-        {pathname.includes(`/explore`) && (
-          <div className="relative m-2 rounded-sm flex justify-end items-start">
-            <div className="inline-block h-4 w-4 overflow-hidden rounded-full bg-gray-100">
-              <RoadmapAvatar />
-            </div>
-          </div>
         )}
       </div>
     </>

@@ -16,30 +16,24 @@ import ThreeDButton from "../ui/three-d-button";
 
 async function AppBar() {
   return (
-    <div className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <div className="border-b-2 border-black bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center space-x-8">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold text-gray-900">RoadmapAI</span>
+            <Link href="/">
+              <div className="brutal-hover inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-black bg-white border-2 border-black rounded-lg shadow-brutal">
+                RoadmapAI
+              </div>
             </Link>
             <NavItems />
           </div>
-          
+
           <div className="flex items-center space-x-4">
-            <TooltipProvider>
-              <Tooltip delayDuration={250}>
-                <TooltipTrigger asChild>
-                  <Badge
-                    className="cursor-default"
-                    variant="outline"
-                  >
-                    ∞ <Coins size={14} />
-                  </Badge>
-                </TooltipTrigger>
-                <TooltipContent>Unlimited Credits</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Link href="/roadmap">
+              <button className="brutal-hover inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-black bg-white border-2 border-black rounded-lg shadow-brutal">
+                Generate
+              </button>
+            </Link>
           </div>
         </div>
       </div>
