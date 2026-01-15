@@ -15,7 +15,7 @@
     "db:push": "pnpx prisma db push",
     "db:pull": "pnpx prisma db pull",
     "db:seed": "node ./prisma/seed.js",
-    "postinstall": "pnpx prisma generate"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.5.0",
